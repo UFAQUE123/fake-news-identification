@@ -6,7 +6,14 @@ import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
+st.set_page_config(
+    page_title="Fake News Detection",
+    page_icon="📰",
+    layout="centered"
+)
+
 st.title("📰 Fake News Detection")
+st.divider()
 @st.cache_resource
 def load_models():
     models = {
@@ -19,7 +26,7 @@ def load_models():
 models, vectorizer = load_models()
 
 model_name = st.selectbox("Select Model", options=models.keys())
-
+st.divider()
 def preprocess_text(text):
     stop_words = set(stopwords.words('english'))
     text = re.sub(r'[^\w\s]', '', text)
@@ -45,7 +52,7 @@ if st.button("Analyze the News"):
 
         model = models[model_name]
         prediction = model.predict(vector)[0]
-
+        st.divider()
         # Confidence
         confidence = model.predict_proba(vector).max() * 100
 
